@@ -4,59 +4,87 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>途羚公寓预约</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
     }
+    
     body {
-      /* 替换为你的背景图地址（本地/在线均可） */
-      background: url("背景图.jpg") no-repeat center center fixed;
+      background: url('背景图.jpg') no-repeat center center fixed;
       background-size: cover;
       min-height: 100vh;
-      font-family: "PingFang SC", sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 15px;
+      justify-content: center;
+      padding: 20px;
     }
+    
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    
     .logo {
       width: 150px;
       height: 150px;
-      /* 替换为你的Logo地址（本地/在线均可） */
-      background: url("logo.png") no-repeat center center;
+      margin: 0 auto 15px;
+      background: url('logo.png') no-repeat center center;
       background-size: contain;
-      margin: 10px 0;
     }
+    
+    .title {
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 5px;
+      font-weight: bold;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
     .subtitle {
       color: white;
       font-size: 20px;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-      margin-bottom: 15px;
       text-align: center;
+      margin-bottom: 25px;
+      opacity: 0.9;
     }
-    .form-box {
-      width: 100%;
-      max-width: 500px;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 20px;
+    
+    .form-group {
+      margin-bottom: 15px;
     }
+    
     input {
       width: 100%;
       padding: 14px 22px;
-      margin: 10px 0;
       border: none;
       border-radius: 35px;
       font-size: 16px;
       background-color: rgba(255, 255, 255, 0.9);
       color: #333;
       outline: none;
+      transition: all 0.3s;
     }
+    
+    input:focus {
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    }
+    
     input::placeholder {
       color: #666;
     }
+    
     .privacy {
       color: white;
       font-size: 13px;
@@ -64,6 +92,7 @@
       margin: 12px 0;
       line-height: 1.5;
     }
+    
     .submit-btn {
       width: 100%;
       padding: 14px;
@@ -77,9 +106,11 @@
       transition: all 0.3s;
       margin-top: 5px;
     }
+    
     .submit-btn:hover {
       background-color: rgba(144, 193, 249, 0.9);
     }
+    
     .success-tip {
       display: none;
       color: white;
@@ -87,33 +118,109 @@
       text-align: center;
       margin-top: 15px;
       padding: 15px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+    
+    .benefits {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      color: white;
+    }
+    
+    .benefits-title {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    
+    .benefits-list {
+      list-style: none;
+    }
+    
+    .benefits-list li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+    
+    .benefits-list li:before {
+      content: "•";
+      position: absolute;
+      left: 10px;
+      color: #b21f1f;
+      font-size: 20px;
+    }
+    
+    .footer {
+      color: white;
+      margin-top: 30px;
+      font-size: 14px;
+      text-align: center;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <!-- Logo区域 -->
-  <div class="logo"></div>
-  
-  <!-- 标题区域 -->
-  <div class="subtitle">预约信息登记</div>
-  
-  <!-- 自定义表单（保留你的UI） -->
-  <div class="form-box">
-    <form id="reservation-form">
-      <input type="text" name="经办人" placeholder="经办人" required>
-      <input type="tel" name="联系电话" placeholder="联系电话" required>
-      <input type="text" name="您的公司名称" placeholder="您的公司名称">
-      <input type="text" name="您需要入住的城市" placeholder="您需要入住的城市" required>
-      <input type="number" name="入住人数" placeholder="入住人数" required min="1">
+  <div class="container">
+    <!-- Logo区域 - 使用您自己的图片 -->
+    <div class="logo"></div>
+    
+    <!-- 标题区域 -->
+    <div class="title">途羚公寓预约</div>
+    <div class="subtitle">预约信息登记</div>
+    
+    <!-- 表单区域 -->
+    <div class="form-box">
+      <form id="reservation-form" action="https://formspree.io/f/xblavkgd" method="POST">
+        <div class="form-group">
+          <input type="text" name="经办人" placeholder="经办人" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="tel" name="联系电话" placeholder="联系电话" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="text" name="公司名称" placeholder="您的公司名称">
+        </div>
+        
+        <div class="form-group">
+          <input type="text" name="城市" placeholder="您需要入住的城市" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="number" name="入住人数" placeholder="入住人数" required min="1">
+        </div>
+        
+        <div class="privacy">
+          <strong>隐私承诺</strong><br>
+          您的信息仅用于服务对接，我们严格保密
+        </div>
+        
+        <button type="submit" class="submit-btn">提交</button>
+      </form>
       
-      <div class="privacy">
-        <strong>隐私承诺</strong><br>
-        您的信息仅用于服务对接，我们严格保密
+      <div class="success-tip" id="successTip">
+        提交成功，我们会尽快与您联系～
       </div>
-      
-      <button type="submit" class="submit-btn">提交</button>
-    </form>
-    <div class="success-tip" id="successTip">提交成功，我们会尽快与您联系～</div>
+    </div>
+    
+    <!-- 为什么选择途羚公寓 -->
+    <div class="benefits">
+      <div class="benefits-title">为什么选择途羚公寓？</div>
+      <ul class="benefits-list">
+        <li>高品质公寓，设施齐全</li>
+        <li>专业管理，安全可靠</li>
+        <li>多城市覆盖，便捷入住</li>
+        <li>为企业客户提供专属服务</li>
+      </ul>
+    </div>
+  </div>
+
   </div>
 
   <script>
@@ -121,30 +228,29 @@
     const successTip = document.getElementById('successTip');
 
     form.addEventListener('submit', async function(e) {
-      e.preventDefault(); // 阻止页面跳转
+      e.preventDefault();
       
-      // 【关键】替换为你的腾讯文档收集表提交链接
-      const apiUrl = 'https://docs.qq.com/form/page/DZGVES0ZTZnhvR3po';
-      
-      // 收集表单数据（字段名与腾讯文档完全一致）
+      const formspreeUrl = form.action;
       const formData = new FormData(form);
       
       try {
-        // 用fetch静默提交数据（不跳转、纯后台交互）
-        await fetch(apiUrl, {
+        const response = await fetch(formspreeUrl, {
           method: 'POST',
           body: formData,
-          mode: 'no-cors', // 解决跨域限制（腾讯文档支持）
+          headers: {
+            'Accept': 'application/json'
+          }
         });
         
-        // 提交后隐藏表单，显示成功提示
-        form.style.display = 'none';
-        successTip.style.display = 'block';
-        
+        if (response.ok) {
+          form.style.display = 'none';
+          successTip.style.display = 'block';
+        } else {
+          alert('提交失败，请稍后重试或直接联系我们');
+        }
       } catch (error) {
-        console.error('提交异常（可忽略，强制显示成功）:', error);
-        form.style.display = 'none';
-        successTip.style.display = 'block';
+        console.error('提交异常:', error);
+        alert('网络错误，请检查网络连接后重试');
       }
     });
   </script>
