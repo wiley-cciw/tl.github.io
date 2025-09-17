@@ -20,19 +20,11 @@
       align-items: center;
       padding: 15px;
     }
-  .logo {
-  width: 150px;
-  height: 150px;
-  /* 去掉白色背景，直接显示图片 */
-  background: url("logo.png") no-repeat center center;
-  background-size: contain; /* 让图片自适应容器 */
-  margin: 10px 0;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .logo {
+      width: 180px; /* 可自定义Logo宽度 */
+      height: auto; /* 高度自动适配，保持图片比例 */
+      margin: 10px 0;
+    }
     .subtitle {
       color: white;
       font-size: 20px;
@@ -105,10 +97,10 @@
   </style>
 </head>
 <body>
-  <!-- Logo区域 - 已修正class名称 -->
-  <div class="logo"></div>
+  <!-- Logo区域：直接用img标签，无圆形裁剪 -->
+  <img src="logo.png" alt="途羚公寓Logo" class="logo">
   
-  <!-- 标题区域 - 保持原样 -->
+  <!-- 标题区域 -->
   <div class="subtitle">预约信息登记</div>
   
   <!-- 表单区域 -->
@@ -131,7 +123,7 @@
   </div>
 
   <div class="footer">
-
+    <!-- 可添加页脚内容 -->
   </div>
 
   <script>
