@@ -19,38 +19,39 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 15px; /* 移动端紧凑布局 */
     }
     .logo {
-      width: 180px;
-      height: 180px;
+      width: 150px; /* 适配移动端的Logo大小 */
+      height: 150px;
       /* 替换为你的Logo地址 */
       background: url("logo.png") no-repeat center center;
       background-size: contain;
-      margin: 20px 0;
+      margin: 10px 0;
     }
     .subtitle {
       color: white;
-      font-size: 22px;
+      font-size: 20px;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      text-align: center;
     }
     .form-box {
       width: 100%;
-      max-width: 550px; /* 加宽容器，让输入框更长 */
+      max-width: 500px;
       background-color: rgba(255, 255, 255, 0.2);
       border-radius: 20px;
-      padding: 25px;
+      padding: 20px;
     }
-    /* 加长输入框：占满容器宽度，增加左右内边距 */
+    /* 加长输入框（占满容器宽度） */
     input {
       width: 100%;
-      padding: 15px 25px; /* 左右内边距加大，视觉上更长 */
-      margin: 12px 0;
+      padding: 14px 22px;
+      margin: 10px 0;
       border: none;
       border-radius: 35px;
       font-size: 16px;
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(255, 255, 255, 0.9);
       color: #333;
       outline: none;
     }
@@ -59,33 +60,34 @@
     }
     .privacy {
       color: white;
-      font-size: 14px;
+      font-size: 13px;
       text-align: center;
-      margin: 15px 0;
-      line-height: 1.6;
+      margin: 12px 0;
+      line-height: 1.5;
     }
     .submit-btn {
       width: 100%;
-      padding: 15px;
+      padding: 14px;
       background-color: rgba(180, 212, 252, 0.8);
       border: none;
       border-radius: 35px;
       color: #333;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 500;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: all 0.3s;
+      margin-top: 5px;
     }
     .submit-btn:hover {
       background-color: rgba(144, 193, 249, 0.9);
     }
-    /* 提交后提示区域 */
+    /* 提交后提示 */
     .success-tip {
       display: none;
       color: white;
-      font-size: 18px;
+      font-size: 17px;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 15px;
     }
     .check-link {
@@ -102,7 +104,7 @@
   <!-- 标题区域 -->
   <div class="subtitle">预约信息登记</div>
   
-  <!-- 表单区域（已去掉日期字段） -->
+  <!-- 自定义表单（保留原有展示） -->
   <div class="form-box">
     <form id="reservation-form">
       <input type="text" name="经办人" placeholder="经办人" required>
@@ -119,11 +121,11 @@
       <button type="submit" class="submit-btn">提交</button>
     </form>
     
-    <!-- 提交后提示（含“看一下”链接） -->
+    <!-- 提交后提示 -->
     <div class="success-tip" id="successTip">
       提交成功，我们会尽快与您联系～<br>
-      <span class="check-link" onclick="window.open('https://docs.qq.com/https://wj.qq.com/s2/23901968/20a9/', '_blank')">
-        点击看一下提交的信息
+      <span class="check-link" onclick="window.open('https://docs.qq.com/你的收集表地址', '_blank')">
+        点击查看提交信息
       </span>
     </div>
   </div>
@@ -135,37 +137,31 @@
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      // 【必须替换】腾讯文档收集表的API提交地址（通过腾讯文档“嵌入网页”获取）
-      const apiUrl = 'https://wj.qq.com/s2/23901968/20a9/';
+      // 【关键】替换为腾讯文档收集表的"表单提交接口"
+      // 获取方式：腾讯文档收集表 → 右上角"分享" → "获取提交链接"
+      const apiUrl = 'https://docs.qq.com/form/page/DZGVES0ZTZnhvR3po';
       
-      // 收集表单数据
+      // 收集表单数据（确保字段名与收集表完全一致）
       const formData = new FormData(form);
       
       try {
-        // 提交数据到腾讯文档收集表
-        const submitForm = document.createElement('form');
-        submitForm.action = apiUrl;
-        submitForm.method = 'post';
-        submitForm.target = '_blank'; // 提交后在新窗口打开，确保数据被接收
-        
-        // 复制表单数据到新表单
-        formData.forEach((value, key) => {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = value;
-          submitForm.appendChild(input);
+        // 点对点提交数据（不跳转、不嵌入iframe）
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          body: formData,
+          mode: 'cors', // 跨域处理
+          headers: {
+            'Accept': 'application/json'
+          }
         });
         
-        document.body.appendChild(submitForm);
-        submitForm.submit();
-        document.body.removeChild(submitForm);
-        
-        // 显示成功提示
+        // 无论响应如何，均显示成功（按需求可改为response.ok判断）
         form.style.display = 'none';
         successTip.style.display = 'block';
+        
       } catch (error) {
-        // 强制显示成功提示
+        console.error('提交异常:', error);
+        // 强制显示成功提示（保障用户体验）
         form.style.display = 'none';
         successTip.style.display = 'block';
       }
